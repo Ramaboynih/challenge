@@ -2,10 +2,10 @@ const { UserBio } = require("../models");
 module.exports = {
     create: async(req, res, next) => {
         try {
-            // const user = req.user;
-            const { username, bio, user_id } = req.body;
+            const user = req.user;
+            const { bio } = req.body;
             const created = await UserBio.findOne({
-                where: { username: username },
+                where: { username: user.username },
             });
 
             if (created) {
@@ -16,9 +16,9 @@ module.exports = {
                 });
             }
             const create = await UserBio.create({
-                username,
+                username: user.username,
                 bio,
-                user_id,
+                user_id: user.id,
             });
             return res.status(201).json({
                 status: true,
@@ -31,10 +31,10 @@ module.exports = {
     },
     update: async(req, res, next) => {
         try {
-            //   const user = req.user;
-            const { user_id, bio } = req.body;
+            const user = req.user;
+            const { bio } = req.body;
             const created = await UserBio.findOne({
-                where: { user_id: user_id },
+                where: { user_id: user.id },
             });
             if (!created) {
                 return res.status(400).json({
@@ -48,20 +48,18 @@ module.exports = {
                 bio: bio,
             }, {
                 where: {
-                    user_id: user_id,
+                    user_id: user.id,
                 },
             });
 
             const updateSuccess = await UserBio.findOne({
-                where: { user_id: user_id },
+                where: { user_id: user.id },
             });
 
             return res.status(200).json({
                 status: true,
                 message: "Bio Updated",
-                data: {
-                    bio: updateSuccess.bio,
-                },
+                data: updateSuccess,
             });
         } catch (error) {
             next(error);
@@ -86,7 +84,7 @@ module.exports = {
             const found = await UserBio.findOne({ where: { user_id: id } });
             if (!found) {
                 return res.status(400).json({
-                    status: true,
+                    status: false,
                     message: "Data Not Exist",
                     data: null,
                 });

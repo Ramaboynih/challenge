@@ -12,7 +12,7 @@ module.exports = {
             });
             return res.status(200).json({
                 status: true,
-                message: "success",
+                message: "Score Saved",
                 data: created,
             });
         } catch (error) {
@@ -24,7 +24,7 @@ module.exports = {
             const showAll = await UserHistory.findAll();
             return res.status(200).json({
                 status: true,
-                message: "success",
+                message: "Success Get All Data",
                 data: showAll,
             });
         } catch (error) {

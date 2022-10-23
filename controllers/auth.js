@@ -53,6 +53,7 @@ module.exports = {
                 return res.status(400).json({
                     status: false,
                     message: "Email / Password doesn't match",
+                    data: null,
                 });
             }
 
@@ -61,6 +62,7 @@ module.exports = {
                 return res.status(400).json({
                     status: false,
                     message: "Email / Password doesn't match",
+                    data: null,
                 });
             }
 
